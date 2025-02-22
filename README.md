@@ -1,9 +1,22 @@
-# React + Vite
+# Task Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Short Description
+This is a task management application that allows users to organize and track tasks by categorizing them into columns like "To Do," "In Progress," and "Done." The app provides an interactive interface where tasks can be added, moved between columns using drag-and-drop functionality, and managed efficiently.
 
-Currently, two official plugins are available:
+## Live Links
+- [Live Demo](https://your-live-app-link.com) *(Replace with your actual live URL)*
+  
+## Dependencies
+The project relies on the following dependencies:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-"# Task-Management2" 
+- `react` – A JavaScript library for building user interfaces.
+- `@dnd-kit/core` – A drag-and-drop library for React used for managing the drag-and-drop interactions.
+- `@dnd-kit/sortable` – Provides functionality for sorting items in lists or grids.
+- `tailwindcss` – A utility-first CSS framework to style the app.
+
+
+## Technologies Used
+- React: A library for building user interfaces in a component-based architecture.
+- Dnd-kit: A set of utilities for handling drag-and-drop interactions in React applications.
+- Tailwind CSS: A utility-first CSS framework that provides low-level utility classes to style the app quickly.
+- JavaScript: Core language for building the logic and interactions within the app.
