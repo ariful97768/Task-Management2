@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import Column from './Column';
 import { DndContext } from '@dnd-kit/core';
-import { SortableContext, useSortable } from '@dnd-kit/sortable';
+import { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable';
 
 const Columns = () => {
     const [columns, setColumns] = useState([]);
@@ -34,10 +34,39 @@ const Columns = () => {
             return false;
         }
     }
+    const onDragOver = (event) => {
+        console.log(event);
+        // const activeIndex = columnsId.indexOf(activeId);
+        // const overIndex = columnsId.indexOf(overId);
+        // const newColumns = [...columns];
+        // const activeColumn = newColumns[activeIndex];
+        // newColumns[activeIndex] = newColumns[overIndex];
+        // newColumns[overIndex] = activeColumn;
+        // setColumns(newColumns);
+        const { active, over } = event;
+        if (!over) return
+
+        const activeId = active.id;
+        const overId = over?.id;
+
+        if (activeId === overId) return;
+        setTasks(tasks => {
+            const activeIdx = tasks.findIndex(task => task.id === activeId);
+            const overIdx = tasks.findIndex(task => task.id === overId);
+
+            if(tasks[activeIdx].columnId !== tasks[overIdx].columnId) {
+                tasks[activeIdx].columnId = tasks[overIdx].columnId;
+            }
+
+            return arrayMove(tasks, activeIdx, overIdx);
+        })
+
+
+    }
 
 
     return (
-        <DndContext onDragStart={onDragStart}>
+        <DndContext onDragStart={onDragStart} onDragOver={onDragOver}>
             <section className='flex items-center gap-2 justify-center'>
 
                 <div className='flex flex-col gap-2'>
