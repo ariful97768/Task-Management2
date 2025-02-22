@@ -4,23 +4,25 @@ import { DndContext } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable';
 
 const Columns = () => {
-    const [columns, setColumns] = useState([]);
-    const [tasks, setTasks] = useState([]);
-    const [activeColumns, setActiveColumns] = useState([]);
+    const data = [
+        { id: 1, userId: 5453, title: 'Task 1', columnId: 1 },
+        { id: 2, userId: 5453, title: 'Task 2', columnId: 1 },
+        { id: 3, userId: 5453, title: 'Task 3', columnId: 1 },
+        { id: 4, userId: 5453, title: 'Task 4', columnId: 2 },
+        { id: 5, userId: 5453, title: 'Task 5', columnId: 2 },
+        { id: 6, userId: 5453, title: 'Task 6', columnId: 2 },
+        { id: 7, userId: 5453, title: 'Task 7', columnId: 3 },
+        { id: 8, userId: 5453, title: 'Task 8', columnId: 3 },
+        { id: 9, userId: 5453, title: 'Task 9', columnId: 3 },
+        { id: 10, userId: 5453, title: 'Task 10', columnId: 3 },
+    ]
 
-    const columnsId = useMemo(() => columns.map((column) => column.id), [columns]);
+    const [tasks, setTasks] = useState(data);
 
-    const createColumns = () => {
-        setColumns([...columns,
-        { id: columns.length + 1, title: `Column ${columns.length + 1}` }]);
-    }
+    const columnsId = [1, 2, 3]
+
     const createTasks = (id) => {
-        const newTasks =
-            setTasks([...tasks, { id: tasks.length + 1, title: `Task ${tasks.length + 1}`, columnId: id }]);
-    }
-
-    const removeColumns = () => {
-        setColumns(columns.slice(0, columns.length - 1));
+        setTasks([...tasks, { id: tasks.length + 1, title: `Task ${tasks.length + 1}`, columnId: id }]);
     }
 
     const onDragStart = (event) => {
@@ -37,7 +39,7 @@ const Columns = () => {
         const activeId = active?.id;
         const overId = over?.id;
         if (!over) return
- 
+
         const isOverPlaceholder = typeof overId === 'string' && overId.includes('-placeholder');
 
         if (isOverPlaceholder) {
@@ -70,22 +72,23 @@ const Columns = () => {
     return (
         <DndContext onDragStart={onDragStart} onDragOver={onDragOver}>
             <section className='flex items-center gap-2 justify-center'>
-
-                <div className='flex flex-col gap-2'>
-                    <button onClick={() => createColumns()} className='btn bg-yellow-300'>Add  </button>
-                    <button onClick={() => removeColumns()} className='btn bg-red-600 text-white'>Remove  </button>
-                </div>
                 <div className='flex gap-2 flex-row'>
-                    <SortableContext items={columns}>
-                        {columns.map((column) => (
-                            <Column
-                                key={column.id}
-                                column={column}
-                                // setTasks={setTasks}
-                                createTasks={createTasks}
-                                tasks={tasks.filter((task) => task.columnId === column.id)}
-                            />
-                        ))}
+                    <SortableContext items={tasks}>
+                        <Column
+                            column={{ id: 1, title: 'To Do' }}
+                            createTasks={createTasks}
+                            tasks={tasks.filter((task) => task.columnId === 1)}
+                        />
+                        <Column
+                            column={{ id: 2, title: 'In Progress' }}
+                            createTasks={createTasks}
+                            tasks={tasks.filter((task) => task.columnId === 2)}
+                        />
+                        <Column
+                            column={{ id: 3, title: 'Task Done' }}
+                            createTasks={createTasks}
+                            tasks={tasks.filter((task) => task.columnId === 3)}
+                        />
                     </SortableContext>
                 </div>
             </section>
