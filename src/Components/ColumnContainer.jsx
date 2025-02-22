@@ -13,13 +13,11 @@ const Columns = () => {
     const createColumns = () => {
         setColumns([...columns,
         { id: columns.length + 1, title: `Column ${columns.length + 1}` }]);
-        console.log(tasks);
     }
     const createTasks = (id) => {
         const newTasks =
             setTasks([...tasks, { id: tasks.length + 1, title: `Task ${tasks.length + 1}`, columnId: id }]);
     }
-    console.log(tasks);
 
     const removeColumns = () => {
         setColumns(columns.slice(0, columns.length - 1));
@@ -27,7 +25,6 @@ const Columns = () => {
 
     const onDragStart = (event) => {
         const { active, over } = event;
-        // console.log(event);
         const id = active.id;
         const index = columnsId.indexOf(id);
         if (index === -1) {
@@ -35,35 +32,40 @@ const Columns = () => {
         }
     }
     const onDragOver = (event) => {
-        console.log(event);
-        // const activeIndex = columnsId.indexOf(activeId);
-        // const overIndex = columnsId.indexOf(overId);
-        // const newColumns = [...columns];
-        // const activeColumn = newColumns[activeIndex];
-        // newColumns[activeIndex] = newColumns[overIndex];
-        // newColumns[overIndex] = activeColumn;
-        // setColumns(newColumns);
         const { active, over } = event;
-        if (!over) return
 
-        const activeId = active.id;
+        const activeId = active?.id;
         const overId = over?.id;
+        if (!over) return
+ 
+        const isOverPlaceholder = typeof overId === 'string' && overId.includes('-placeholder');
+
+        if (isOverPlaceholder) {
+            const columnId = parseInt(over.id.split('-')[0]);
+            setTasks(tasks => {
+                const activeIdx = tasks.findIndex(task => task.id === activeId);
+                // Create a new array instead of mutating the existing one
+                return tasks.map((task, index) => {
+                    if (index === activeIdx) {
+                        return { ...task, columnId: columnId };
+                    }
+                    return task;
+                });
+            });
+            return;
+        }
+
 
         if (activeId === overId) return;
         setTasks(tasks => {
             const activeIdx = tasks.findIndex(task => task.id === activeId);
             const overIdx = tasks.findIndex(task => task.id === overId);
-
-            if(tasks[activeIdx].columnId !== tasks[overIdx].columnId) {
-                tasks[activeIdx].columnId = tasks[overIdx].columnId;
-            }
-
+            tasks[activeIdx].columnId = tasks[overIdx].columnId;
             return arrayMove(tasks, activeIdx, overIdx);
         })
 
 
     }
-
 
     return (
         <DndContext onDragStart={onDragStart} onDragOver={onDragOver}>
