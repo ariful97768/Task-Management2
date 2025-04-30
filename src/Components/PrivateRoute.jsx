@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
 import { Navigate } from 'react-router-dom';
-import Animation from '../Components/Animation';
 
 const PrivateRoute = ({ children }) => {
     const { user, loader } = useContext(AuthContext)
     if (loader) {
-        return <Animation />
+        return <div className='h-screen w-screen flex justify-center items-center'><span className="loading loading-bars loading-xl"></span></div>
     }
     if (user) {
         return children

@@ -8,12 +8,14 @@ import {
 import Columns from './Components/ColumnContainer';
 import Login from './Components/Login';
 import Register from './Components/Register';
+import AuthProvider from './Components/AuthProvider';
+import PrivateRoute from './Components/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Columns></Columns>,
-
+    element:<PrivateRoute><Columns></Columns></PrivateRoute>,
   },
   {
     path: '/login',
@@ -27,6 +29,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </AuthProvider>
   </StrictMode>,
 )
