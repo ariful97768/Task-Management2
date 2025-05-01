@@ -9,7 +9,7 @@ const Task = ({ id, title, dsc, handleDetails, handleDelete, handleSubmit, postT
         transform: CSS.Transform.toString(transform),
     }
     if (isDragging) {
-        return <div ref={setNodeRef} style={styles} className="card card-border border-2 border-black bg-base-100 w-96 z-10">
+        return <div ref={setNodeRef} style={styles} className="card opacity-30 card-border border-2 border-gray-300 bg-base-100 w-96 z-10">
             <div className="border-2 border-gray-300">
                 <div className="card-body">
                     <h2 className="card-title">{title}</h2>
@@ -47,7 +47,7 @@ const Task = ({ id, title, dsc, handleDetails, handleDelete, handleSubmit, postT
 
             <input type="checkbox" id={id} className="modal-toggle" />
             <div className="modal" role="dialog">
-                <form onSubmit={e => handleSubmit(e, id)} className="modal-box max-w-3xl flex flex-col gap-4">
+                <form onSubmit={e => handleSubmit(e, id)} className="modal-box max-w-xl flex flex-col gap-4">
                     <div className='flex gap-5 justify-between'>
                         <input defaultValue={title} required placeholder='Title' type="text" className="font-bold text-lg w-full focus:outline-none border-none ring-0" name="title" id="" />
                         <label htmlFor={id} className="btn rounded-full border-gray-600 ">X</label>
